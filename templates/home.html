@@ -1,16 +1,35 @@
-<html>
-<body>
-	<h2>Welcome to multicast MAC to IP converter</h2>
-	<div class="paragraph">
-	Please enter the MAC address you wish to find IP mappings for
-	</div>
-	<form method="POST" action="/">
-	   <input type="text" name="mac">
-	   <input type="submit" value="Convert">
-	</form>
-	{% for ip in ips %}
-	   <h3>{{ ip }}</h3>
- 	{% endfor %}
+{% extends "bootstrap/base.html" %}
+
+{% block content %}
+      
+        <style>
+        .table { 
+           width: 10%;
+        {
+        </style>
+	<div class="container">
+        <p class="h2">Welcome to multicast MAC to IP converter</p>
 	
-</body>
-</html>
+	<form method="POST" class="form-inline" action="/">
+        <div class="form-group">
+	   <input type="text" class="form-control-sm" placeholder="00:01:5e:00:00:00" name="mac">
+        </div>
+       
+	   <button type="submit" class="btn btn-primary btn-sm">Convert</button>
+	</form>
+       
+        {% if ips %}
+        <table class="table table-borderless table-condensed">
+	{% for ip in ips %}
+	   <tr><td>{{ ip }}</td></tr>
+ 	{% endfor %}
+        </table>
+        {% endif %}
+	</div>	
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.min.js"></script>
+{% endblock %}
+

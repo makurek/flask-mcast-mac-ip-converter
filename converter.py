@@ -2,6 +2,7 @@ import os
 from flask import Flask
 from flask import render_template
 from flask import request
+from flask_bootstrap import Bootstrap
 
 def multicast_mac_to_ip(mac_address):
 
@@ -23,6 +24,8 @@ def multicast_mac_to_ip(mac_address):
     return result
 
 app = Flask(__name__)
+Bootstrap(app)
+
 
 @app.route("/", methods=["GET", "POST"])
 def home():
