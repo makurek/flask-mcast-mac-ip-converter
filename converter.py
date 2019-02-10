@@ -3,6 +3,11 @@ from flask import Flask
 from flask import render_template
 from flask import request
 from flask_bootstrap import Bootstrap
+from wtforms import StringField
+from wtforms.validators import InputRequired, Length, AnyOf
+
+class multicastForm(Form):
+   mac = StringField('mac', validators=[InputRequired()])
 
 def multicast_mac_to_ip(mac_address):
 
@@ -29,7 +34,8 @@ Bootstrap(app)
 
 @app.route("/", methods=["GET", "POST"])
 def home():
-   if request.form:
+   form = multicastForm()
+   if form.validate_on_submit():
       ips = multicast_mac_to_ip(request.form.get("mac"))
       return render_template("home.html", ips=ips)
    else:
