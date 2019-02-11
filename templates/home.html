@@ -1,38 +1,42 @@
 {% extends "bootstrap/base.html" %}
-{% import "bootstrap/wtf.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
 
 {% block title %}
+<title>Multicast MAC to IP converter</title>
+{% endblock %}
 
 {% block content %}
       
         <style>
-        .table { 
+        .li { 
            width: 10%;
         {
         </style>
+
 	<div class="container">
-        <p class="h2">Welcome to multicast MAC to IP converter</p>
-	
-	<form method="POST" class="form-inline" action="/">
-        <div class="form-group">
-	   <input type="text" class="form-control-sm" placeholder="00:01:5e:00:00:00" name="mac">
-        </div>
-       
-	   <button type="submit" class="btn btn-primary btn-sm">Convert</button>
-	</form>
-       
-        {% if ips %}
-        <table class="table table-borderless table-condensed">
-	{% for ip in ips %}
-	   <tr><td>{{ ip }}</td></tr>
- 	{% endfor %}
-        </table>
-        {% endif %}
+           <p class="h2">Welcome to multicast MAC to IP converter</p>
+	   <form method="POST" class="form-inline" action="/">
+             <div class="form-group">
+	        {{ form.csrf_token }}
+                {{ wtf.form_field(form.mac) }}
+	     </div>
+	     <button type="submit" class="btn btn-primary btn-sm">Convert</button>
+	   </form>
+       	   <div width="10%">
+           {% if ips %}
+              <ul class="list-group">
+	         {% for ip in ips %}
+	            <li class="list-group-item">{{ ip }}</li>
+ 	         {% endfor %}
+              </ul>
+           {% endif %}
+           </div>
 	</div>	
+
 {% endblock %}
 
 {% block scripts %}
-{{ super() }}
-<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.min.js"></script>
+   {{ super() }}
+   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.min.js"></script>
 {% endblock %}
 

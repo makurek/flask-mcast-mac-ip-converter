@@ -1,13 +1,17 @@
 import os
+import re
 from flask import Flask
+from flask_wtf import FlaskForm
 from flask import render_template
 from flask import request
 from flask_bootstrap import Bootstrap
 from wtforms import StringField
-from wtforms.validators import InputRequired, Length, AnyOf
+from wtforms.validators import InputRequired, MacAddress
 
-class multicastForm(Form):
-   mac = StringField('mac', validators=[InputRequired()])
+
+class multicastForm(FlaskForm):
+   
+   mac = StringField('MAC address', validators=[MacAddress()])
 
 def multicast_mac_to_ip(mac_address):
 
@@ -29,17 +33,18 @@ def multicast_mac_to_ip(mac_address):
     return result
 
 app = Flask(__name__)
+app.config['SECRET_KEY'] = '443436456542'
 Bootstrap(app)
 
 
 @app.route("/", methods=["GET", "POST"])
-def home():
+def index():
    form = multicastForm()
    if form.validate_on_submit():
       ips = multicast_mac_to_ip(request.form.get("mac"))
-      return render_template("home.html", ips=ips)
+      return render_template("home.html", form=form, ips=ips)
    else:
-      return render_template("home.html")
+      return render_template("home.html", form=form)
 
   
 if __name__ == "__main__":
