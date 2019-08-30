@@ -38,15 +38,15 @@ def multicast_mac_to_ip(mac_address):
 
 
 logging.basicConfig(level=logging.INFO)
-app = Flask(__name__)
+application = Flask(__name__)
 handler = watchtower.CloudWatchLogHandler()
-app.logger.addHandler(handler)
+application.logger.addHandler(handler)
 logging.getLogger("werkzeug").addHandler(handler)
-app.config['SECRET_KEY'] = '443436456542'
-Bootstrap(app)
+application.config['SECRET_KEY'] = '443436456542'
+Bootstrap(application)
 
 
-@app.route("/", methods=["GET", "POST"])
+@application.route("/", methods=["GET", "POST"])
 def index():
 
    form = multicastForm()
@@ -57,7 +57,7 @@ def index():
       return render_template("home.html", form=form)
 
 
-@app.route('/api/v0.1/mac-to-ip', methods=['POST'])
+@application.route('/api/v0.1/mac-to-ip', methods=['POST'])
 def convert():
     if not request.json or not 'mac' in request.json:
         abort(400)
@@ -68,6 +68,6 @@ def convert():
 
   
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", debug=True)
+    application.run(host="0.0.0.0", debug=True)
 
 
